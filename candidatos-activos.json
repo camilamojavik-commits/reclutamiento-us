@@ -160,12 +160,12 @@
     "nombre": "Maxime Beauchemin",
     "linkedin": "https://www.linkedin.com/in/maximebeauchemin/",
     "curso": "Data Analytics Live",
-    "status": "Contactado",
+    "status": "Descartado",
     "empresa": "Preset",
     "rol": "CEO & Founder",
     "ubicacion": "Belmont, California, United States (Pacific Time)",
     "fechaContacto": "2026-09-14",
-    "notas": "Creator of Apache Superset and founder of a SQL-first BI company; unusually strong fit for analytics dashboards, SQL, semantic exploration and data storytelling, with deep Airbnb-e",
+    "notas": "Creator of Apache Superset and founder of a SQL-first BI company; unusually strong fit for analytics dashboards, SQL, semantic exploration and data storytelling, with deep Airbnb-e | Descartado: founder/empresa no mega-brand",
     "esEjemplo": false
   },
   {
@@ -173,12 +173,12 @@
     "nombre": "Benn Stancil",
     "linkedin": "https://www.linkedin.com/in/benn-stancil/",
     "curso": "Data Analytics Live",
-    "status": "Contactado",
+    "status": "Descartado",
     "empresa": "Mode",
     "rol": "Founder (previously Chief Analytics Officer / CTO)",
     "ubicacion": "Brooklyn, New York, United States (Eastern Time)",
     "fechaContacto": "2026-09-14",
-    "notas": "Analytics-platform founder and former analytics executive; Mode's SQL notebooks and his public analytics writing map directly to SQL, analyst workflows, decision framing and storyt",
+    "notas": "Analytics-platform founder and former analytics executive; Mode's SQL notebooks and his public analytics writing map directly to SQL, analyst workflows, decision framing and storyt | Descartado: founder/empresa no mega-brand",
     "esEjemplo": false
   },
   {
@@ -186,12 +186,12 @@
     "nombre": "Ryan Sleeper",
     "linkedin": "https://www.linkedin.com/in/ryansleeper/",
     "curso": "Data Analytics Live",
-    "status": "Contactado",
+    "status": "Descartado",
     "empresa": "Playfair Data",
     "rol": "Founder; Tableau author and analytics consultant",
     "ubicacion": "Kansas City, Missouri, United States (Central Time)",
     "fechaContacto": "2026-09-14",
-    "notas": "Public profile emphasizes turning data into value; founder of Playfair Data and author of multiple Tableau books, making him a particularly strong BI visualization and analytics-st",
+    "notas": "Public profile emphasizes turning data into value; founder of Playfair Data and author of multiple Tableau books, making him a particularly strong BI visualization and analytics-st | Descartado: founder/empresa no mega-brand",
     "esEjemplo": false
   },
   {
@@ -199,12 +199,12 @@
     "nombre": "Wes McKinney",
     "linkedin": "https://www.linkedin.com/in/wesmckinn/",
     "curso": "Data Analytics Live",
-    "status": "Identificado",
+    "status": "Descartado",
     "empresa": "Kenn Software / pandas project",
     "rol": "Founder, software architect and investor; creator/BDFL of pandas",
     "ubicacion": "Nashville, Tennessee, United States (Central Time)",
     "fechaContacto": "",
-    "notas": "Creator and BDFL of pandas, the strongest possible Python/pandas signal for an analytics course; deep practical data-wrangling credibility and highly recognizable English technical | SKIPPED: InMail credits / email verify",
+    "notas": "Creator and BDFL of pandas, the strongest possible Python/pandas signal for an analytics course; deep practical data-wrangling credibility and highly recognizable English technical | SKIPPED: InMail credits / email verify | Descartado: founder/empresa no mega-brand",
     "esEjemplo": false
   }
 ]
