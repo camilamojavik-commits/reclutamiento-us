@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Reclutamiento US · Instructores</title>
+<style>
+:root {
+  --bg:#0B0E18; --panel:#12162A; --border:#2A3152; --text:#E8EAF2; --muted:#8B92B0;
+  --accent:#00C49A; --accent-dim:rgba(0,196,154,.14); --blue:#5B8CFF; --blue-dim:rgba(91,140,255,.16);
+  --amber:#F5B942; --amber-dim:rgba(245,185,66,.16); --red:#FF6B7A; --red-dim:rgba(255,107,122,.14);
+}
+* { box-sizing:border-box; }
+body {
+  margin:0; min-height:100vh; color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  background: radial-gradient(1200px 600px at 10% -10%, #16302a 0%, transparent 55%),
+              radial-gradient(900px 500px at 100% 0%, #1a2248 0%, transparent 50%),
+              var(--bg);
+  padding:1.5rem;
+  line-height:1.45;
+}
+.header { display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between; align-items:flex-end; margin-bottom:1.1rem; }
+h1 { margin:0; font-size:1.45rem; letter-spacing:-.02em; }
+.sub { margin:.35rem 0 0; color:var(--muted); font-size:.9rem; }
+.stats { display:flex; gap:.6rem; flex-wrap:wrap; }
+.stat {
+  background:var(--panel); border:1px solid var(--border); border-radius:12px;
+  padding:.55rem .8rem; min-width:92px;
+}
+.stat b { display:block; font-size:1.15rem; color:var(--accent); }
+.stat span { color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.04em; }
+.filters {
+  display:flex; flex-wrap:wrap; gap:.75rem; align-items:center;
+  background:var(--panel); border:1px solid var(--border); border-radius:14px;
+  padding:.85rem 1rem; margin-bottom:1rem;
+}
+.filters label { color:var(--muted); font-size:.78rem; display:flex; flex-direction:column; gap:.35rem; }
+select, input[type="search"] {
+  background:#0E1224; color:var(--text); border:1px solid var(--border);
+  border-radius:10px; padding:.5rem .7rem; min-width:180px; font:inherit;
+}
+.btn {
+  background:transparent; color:var(--text); border:1px solid var(--border);
+  border-radius:10px; padding:.5rem .85rem; cursor:pointer; font:inherit;
+}
+.btn:hover { border-color:var(--accent); color:var(--accent); }
+.wrap { overflow:auto; border:1px solid var(--border); border-radius:14px; background:rgba(18,22,42,.92); }
+table { width:100%; border-collapse:collapse; min-width:980px; font-size:.88rem; }
+th, td { text-align:left; padding:.85rem .9rem; border-bottom:1px solid var(--border); vertical-align:top; }
+th {
+  position:sticky; top:0; background:#0E1224; color:var(--muted);
+  font-size:.7rem; text-transform:uppercase; letter-spacing:.05em; z-index:1;
+}
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(255,255,255,.02); }
+a { color:var(--accent); text-decoration:none; font-weight:600; }
+a:hover { text-decoration:underline; }
+.muted { color:var(--muted); }
+.small { font-size:.8rem; margin-top:.2rem; }
+.pill {
+  display:inline-block; padding:.18rem .55rem; border-radius:999px; font-size:.75rem; font-weight:600;
+  background:var(--accent-dim); color:var(--accent);
+}
+.chip { display:inline-block; padding:.18rem .55rem; border-radius:999px; font-size:.75rem; font-weight:600; }
+.chip-contactado { background:var(--blue-dim); color:var(--blue); }
+.chip-identificado { background:var(--amber-dim); color:var(--amber); }
+.chip-respondio { background:var(--accent-dim); color:var(--accent); }
+.chip-descartado { background:var(--red-dim); color:var(--red); }
+.empty { display:none; padding:2rem; text-align:center; color:var(--muted); }
+.empty.show { display:block; }
+</style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <h1>Reclutamiento US · Instructores</h1>
+      <p class="sub">16 candidatos · AI Engineering + Data Analytics Live · actualizado 2026-09-14</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><b id="statVisible">16</b><span>visibles</span></div>
+      <div class="stat"><b id="statAi">8</b><span>AI Eng</span></div>
+      <div class="stat"><b id="statData">8</b><span>Data</span></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <label>Curso
+      <select id="fCurso">
+        <option value="">Todos</option>
+        <option value="AI Engineering">AI Engineering</option>
+        <option value="Data Analytics Live">Data Analytics Live</option>
+      </select>
+    </label>
+    <label>Status
+      <select id="fStatus">
+        <option value="">Todos</option>
+        <option value="Identificado">Identificado</option>
+        <option value="Contactado">Contactado</option>
+        <option value="Respondió">Respondió</option>
+        <option value="Calendar enviado">Calendar enviado</option>
+        <option value="Entrevista">Entrevista</option>
+        <option value="Descartado">Descartado</option>
+      </select>
+    </label>
+    <label>Buscar
+      <input id="fQ" type="search" placeholder="nombre, empresa, notas…"/>
+    </label>
+    <button class="btn" type="button" id="btnClear">Limpiar filtros</button>
+  </div>
+
+  <div class="wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre / Rol</th><th>Empresa</th><th>Ubicación</th><th>Curso</th>
+          <th>Status</th><th>LinkedIn</th><th>Fecha</th><th>Notas</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Logan Kilpatrick</strong><div class="muted small">Member of Technical Staff</div></td>
+  <td>Google DeepMind</td>
+  <td>Mountain View, CA</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/logankilpatrick/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Gemini API/AI Studio; ex OpenAI DevRel. Fuerte comunicación pública. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Josh Gordon</strong><div class="muted small">Head of AI Developer Relations / Open Source ML</div></td>
+  <td>Google</td>
+  <td>New York, NY</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/joshuabendergordon/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Adjunct Columbia/Pace. Senior; scheduling risk. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Katie Nguyen</strong><div class="muted small">Developer Relations Engineer</div></td>
+  <td>Google Cloud</td>
+  <td>Seattle, WA</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/katiemn/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Gemini/Vertex agents; PT. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Brad Miro</strong><div class="muted small">Senior Developer Advocate</div></td>
+  <td>Google Cloud</td>
+  <td>New York, NY</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/bradmiro/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">AI agents + public speaking. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Luke Schlangen</strong><div class="muted small">Lead AI Builder Advocate</div></td>
+  <td>Google</td>
+  <td>Eden Prairie, MN</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/lukeschlangen/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Labs/livestreams AI builders. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Sara Robinson</strong><div class="muted small">Developer Advocate</div></td>
+  <td>Google</td>
+  <td>Boston, MA</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/sara-r-40377924/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">O&#x27;Reilly author; menos agents/RAG explícito. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Harrison Chase</strong><div class="muted small">Co-Founder &amp; CEO</div></td>
+  <td>LangChain</td>
+  <td>San Francisco, CA</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/harrison-chase-961287118/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Fit contenido alto; CEO availability risk. No FAANG. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="AI Engineering" data-status="Contactado">
+  <td><strong>Dan Zaratsian</strong><div class="muted small">AI Engineer / Tech Lead</div></td>
+  <td>Google</td>
+  <td>Raleigh-Durham, NC</td>
+  <td><span class="pill">AI Engineering</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/danzaratsian/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Referencia de perfil nativo que gusta a Camila. ET. | Contactado LinkedIn 2026-09-14</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Adam Saxton</strong><div class="muted small">Community &amp; Skilling lead in Azure Data</div></td>
+  <td>Microsoft</td>
+  <td>Spring, Texas, United States (Central Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/awsaxton/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Power BI/Fabric/SQL community educator and public-facing Microsoft data communicator; his Guy in a Cube work is a direct signal for clear, p</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Patrick LeBlanc</strong><div class="muted small">Microsoft / Guy in a Cube Power BI-Fabric educator</div></td>
+  <td>Microsoft</td>
+  <td>Houston, Texas, United States (Central Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/patrickdleblanc/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Co-creator/face of Guy in a Cube, with a strong public track record explaining Power BI, SQL Server and Fabric concepts in approachable Engl</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Jules Damji</strong><div class="muted small">DevRel, Developer Education, Data Engineering &amp; Distributed Computing</div></td>
+  <td>Databricks</td>
+  <td>Fremont, California, United States (Pacific Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/dmatrix/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Databricks DevRel and O&#x27;Reilly author with explicit developer-education experience; strong Python/SQL/Spark/data-engineering foundation and </td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Daniel Liden</strong><div class="muted small">Senior Developer Advocate</div></td>
+  <td>Databricks</td>
+  <td>Chicago, Illinois, United States (Central Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/danielliden/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Senior Databricks Developer Advocate with visible English-language posts, livestream/event activity and hands-on data-platform communication</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Maxime Beauchemin</strong><div class="muted small">CEO &amp; Founder</div></td>
+  <td>Preset</td>
+  <td>Belmont, California, United States (Pacific Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/maximebeauchemin/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Creator of Apache Superset and founder of a SQL-first BI company; unusually strong fit for analytics dashboards, SQL, semantic exploration a</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Benn Stancil</strong><div class="muted small">Founder (previously Chief Analytics Officer / CTO)</div></td>
+  <td>Mode</td>
+  <td>Brooklyn, New York, United States (Eastern Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/benn-stancil/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Analytics-platform founder and former analytics executive; Mode&#x27;s SQL notebooks and his public analytics writing map directly to SQL, analys</td>
+</tr><tr data-curso="Data Analytics Live" data-status="Contactado">
+  <td><strong>Ryan Sleeper</strong><div class="muted small">Founder; Tableau author and analytics consultant</div></td>
+  <td>Playfair Data</td>
+  <td>Kansas City, Missouri, United States (Central Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-contactado">Contactado</span></td>
+  <td><a href="https://www.linkedin.com/in/ryansleeper/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">2026-09-14</td>
+  <td class="muted small">Public profile emphasizes turning data into value; founder of Playfair Data and author of multiple Tableau books, making him a particularly </td>
+</tr><tr data-curso="Data Analytics Live" data-status="Identificado">
+  <td><strong>Wes McKinney</strong><div class="muted small">Founder, software architect and investor; creator/BDFL of pandas</div></td>
+  <td>Kenn Software / pandas project</td>
+  <td>Nashville, Tennessee, United States (Central Time)</td>
+  <td><span class="pill">Data Analytics Live</span></td>
+  <td><span class="chip chip-identificado">Identificado</span></td>
+  <td><a href="https://www.linkedin.com/in/wesmckinn/" target="_blank" rel="noopener">Perfil</a></td>
+  <td class="muted small">—</td>
+  <td class="muted small">Creator and BDFL of pandas, the strongest possible Python/pandas signal for an analytics course; deep practical data-wrangling credibility a</td>
+</tr>
+      </tbody>
+    </table>
+    <div class="empty" id="empty">No hay candidatos con esos filtros.</div>
+  </div>
+
+<script>
+(function() {
+  const tbody = document.getElementById('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const fCurso = document.getElementById('fCurso');
+  const fStatus = document.getElementById('fStatus');
+  const fQ = document.getElementById('fQ');
+  const empty = document.getElementById('empty');
+  const visibleEl = document.getElementById('statVisible');
+
+  function apply() {
+    const curso = fCurso.value;
+    const status = fStatus.value;
+    const q = (fQ.value || '').trim().toLowerCase();
+    let n = 0;
+    rows.forEach(tr => {
+      const okCurso = !curso || tr.dataset.curso === curso;
+      const okStatus = !status || tr.dataset.status === status;
+      const okQ = !q || tr.textContent.toLowerCase().includes(q);
+      const show = okCurso && okStatus && okQ;
+      tr.style.display = show ? '' : 'none';
+      if (show) n++;
+    });
+    visibleEl.textContent = String(n);
+    empty.classList.toggle('show', n === 0);
+  }
+
+  fCurso.addEventListener('change', apply);
+  fStatus.addEventListener('change', apply);
+  fQ.addEventListener('input', apply);
+  document.getElementById('btnClear').addEventListener('click', () => {
+    fCurso.value = ''; fStatus.value = ''; fQ.value = ''; apply();
+  });
+  apply();
+})();
+</script>
+</body>
+</html>
